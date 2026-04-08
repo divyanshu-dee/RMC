@@ -4,6 +4,9 @@
   <title>RMC Multiplayer</title>
   <link rel="stylesheet" href="style.css">
 
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -11,27 +14,48 @@
 
 <body>
 
-<h1>👑Raja Mantri Chor Sipahi Game</h1>
+<div class="container">
 
-<div id="menu">
-  <button onclick="createRoom()">Create Room</button>
-  <br><br>
-  <input id="roomInput" placeholder="Enter Room Code">
-  <button onclick="joinRoom()">Join Room</button>
-</div>
+  <h1>👑 Raja Mantri Chor Sipahi</h1>
 
-<h2 id="roomCode"></h2>
-<h3 id="status"></h3>
-
-<div id="game" style="display:none;">
-  <h2 id="role"></h2>
-
-  <div id="guessBox" style="display:none;">
-    <input type="number" id="guess" placeholder="Guess player (1-4)">
-    <button onclick="sendGuess()">Submit Guess</button>
+  <!-- MENU -->
+  <div id="menu" class="card">
+    <button onclick="createRoom()">Create Room</button>
+    <br><br>
+    <input id="roomInput" placeholder="Enter Room Code">
+    <button onclick="joinRoom()">Join Room</button>
   </div>
 
-  <h2 id="result"></h2>
+  <!-- ROOM INFO -->
+  <div class="card">
+    <h2 id="roomCode"></h2>
+    <h3 id="status"></h3>
+  </div>
+
+  <!-- GAME SECTION -->
+  <div id="game" class="card" style="display:none;">
+    
+    <h2 id="role"></h2>
+
+    <!-- PLAYER VISUALS -->
+    <div class="players">
+      <div class="player">👑 Raja</div>
+      <div class="player">🧠 Mantri</div>
+      <div class="player">🕵️ Chor</div>
+      <div class="player">👮 Sipahi</div>
+    </div>
+
+    <!-- GUESS BOX -->
+    <div id="guessBox" style="display:none;">
+      <input type="number" id="guess" placeholder="Guess player (1-4)">
+      <button onclick="sendGuess()">Submit</button>
+    </div>
+
+    <!-- RESULT -->
+    <h2 id="result"></h2>
+
+  </div>
+
 </div>
 
 <script src="script.js"></script>
