@@ -5,7 +5,7 @@ let playerId = Date.now().toString();
 const firebaseConfig = {
   apiKey: "AIzaSyDHTrztdcMC4cnYo--LHHiEqOHNJoRgf5I",
   authDomain: "rmc-game.firebaseapp.com",
-  databaseURL: "https://rmc-game-default-rtdb.firebaseio.com", // IMPORTANT
+  databaseURL: "https://rmc-game-default-rtdb.asia-southeast1.firebasedatabase.app/", // IMPORTANT
   projectId: "rmc-game",
   storageBucket: "rmc-game.firebasestorage.app",
   messagingSenderId: "18305695036",
