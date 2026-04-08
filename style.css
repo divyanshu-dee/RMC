@@ -119,3 +119,49 @@ input {
     width: 150px;
   }
 }
+/* 👥 Characters Section (Front Page) */
+.characters {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+/* 🎴 Character Card */
+.char {
+  width: 100px;
+  height: 120px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+/* ✨ Hover Animation */
+.char:hover {
+  transform: translateY(-8px) scale(1.08);
+}
+
+/* 😀 Emoji */
+.char .emoji {
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+/* 📝 Text */
+.char p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* 🌈 Role Colors (Pro Look 🔥) */
+.char:nth-child(1) { border: 2px solid gold; }     /* Raja */
+.char:nth-child(2) { border: 2px solid #00f2fe; }  /* Mantri */
+.char:nth-child(3) { border: 2px solid red; }      /* Chor */
+.char:nth-child(4) { border: 2px solid green; }    /* Sipahi */
