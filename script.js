@@ -1,23 +1,20 @@
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+let roomCode = "";
+let playerId = Date.now().toString();
+
+// 🔑 YOUR FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyDHTrztdcMC4cnYo--LHHiEqOHNJoRgf5I",
   authDomain: "rmc-game.firebaseapp.com",
+  databaseURL: "https://rmc-game-default-rtdb.firebaseio.com", // IMPORTANT
   projectId: "rmc-game",
   storageBucket: "rmc-game.firebasestorage.app",
   messagingSenderId: "18305695036",
-  appId: "1:18305695036:web:7fcba0dfccd9222e777239",
-  measurementId: "G-EGHQHC66B9"
+  appId: "1:18305695036:web:7fcba0dfccd9222e777239"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
+// ✅ Initialize Firebase (v8)
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
-let roomCode = "";
-let playerId = Date.now().toString();
 
 // 🎮 CREATE ROOM
 function createRoom() {
@@ -25,19 +22,20 @@ function createRoom() {
 
   db.ref("rooms/" + roomCode).set({
     players: {},
-    roles: [],
+    roles: {},
     guess: null
+  }).then(() => {
+    document.getElementById("roomCode").innerText =
+      "Room Code: " + roomCode;
+
+    joinRoomByCode(roomCode);
   });
-
-  document.getElementById("roomCode").innerText =
-    "Room Code: " + roomCode;
-
-  joinRoomByCode(roomCode);
 }
 
 // 🚪 JOIN ROOM
 function joinRoom() {
   const code = document.getElementById("roomInput").value;
+  if (!code) return alert("Enter room code");
   joinRoomByCode(code);
 }
 
@@ -85,20 +83,20 @@ function assignRoles(players) {
 }
 
 // 👁️ SHOW ROLE
-db.ref().on("value", snapshot => {
-  const data = snapshot.val();
-  if (!data || !data.rooms || !data.rooms[roomCode]) return;
+db.ref("rooms").on("value", snapshot => {
+  const rooms = snapshot.val();
+  if (!rooms || !rooms[roomCode]) return;
 
-  const room = data.rooms[roomCode];
-
+  const room = rooms[roomCode];
   if (!room.roles) return;
 
   const myRole = room.roles[playerId];
 
+  if (!myRole) return;
+
   document.getElementById("role").innerText =
     "Your Role: " + myRole;
 
-  // Only Mantri can guess
   if (myRole === "Mantri") {
     document.getElementById("guessBox").style.display = "block";
   }
@@ -107,6 +105,7 @@ db.ref().on("value", snapshot => {
 // 🧠 SEND GUESS
 function sendGuess() {
   const guess = document.getElementById("guess").value;
+  if (!guess) return;
 
   db.ref("rooms/" + roomCode + "/guess").set({
     guess: guess
@@ -114,26 +113,25 @@ function sendGuess() {
 }
 
 // 🏆 RESULT SYSTEM
-db.ref("rooms/" + roomCode + "/guess").on("value", snapshot => {
-  const data = snapshot.val();
-  if (!data) return;
+db.ref("rooms").on("value", snapshot => {
+  const rooms = snapshot.val();
+  if (!rooms || !rooms[roomCode]) return;
 
-  db.ref("rooms/" + roomCode + "/roles").once("value", snap => {
-    const roles = snap.val();
+  const room = rooms[roomCode];
+  if (!room.guess || !room.roles) return;
 
-    let chorId = null;
-    let keys = Object.keys(roles);
+  let chorIndex = null;
+  let keys = Object.keys(room.roles);
 
-    keys.forEach((id, index) => {
-      if (roles[id] === "Chor") chorId = index + 1;
-    });
-
-    if (parseInt(data.guess) === chorId) {
-      document.getElementById("result").innerText =
-        "✅ Mantri Wins!";
-    } else {
-      document.getElementById("result").innerText =
-        "❌ Chor Wins!";
-    }
+  keys.forEach((id, index) => {
+    if (room.roles[id] === "Chor") chorIndex = index + 1;
   });
+
+  if (parseInt(room.guess.guess) === chorIndex) {
+    document.getElementById("result").innerText =
+      "✅ Mantri Wins!";
+  } else {
+    document.getElementById("result").innerText =
+      "❌ Chor Wins!";
+  }
 });
