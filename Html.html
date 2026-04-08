@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RMC Multiplayer</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+
+<body>
+
+<h1>👑 RMC Game</h1>
+
+<div id="menu">
+  <button onclick="createRoom()">Create Room</button>
+  <br><br>
+  <input id="roomInput" placeholder="Enter Room Code">
+  <button onclick="joinRoom()">Join Room</button>
+</div>
+
+<h2 id="roomCode"></h2>
+<h3 id="status"></h3>
+
+<div id="game" style="display:none;">
+  <h2 id="role"></h2>
+
+  <div id="guessBox" style="display:none;">
+    <input type="number" id="guess" placeholder="Guess player (1-4)">
+    <button onclick="sendGuess()">Submit Guess</button>
+  </div>
+
+  <h2 id="result"></h2>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
